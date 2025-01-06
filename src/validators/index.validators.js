@@ -9,7 +9,15 @@ exports.newProject = [
     body('totalSprints').notEmpty().withMessage('Please provide totalSprints'),
 ];
 
-exports.newProjectParameter = [
-    body('type').notEmpty().withMessage('Please provide type'),
-    body('sub').notEmpty().withMessage('Please provide sub'),
+exports.newReport = [
+    body('projectId').notEmpty().withMessage('Please provide project id'),
+    body('description').notEmpty().withMessage('Please provide description'),
 ];
+
+exports.updateReport = [
+    body('doc_id').notEmpty().withMessage('Please provide the doc _id')
+]
+
+exports.getProjectReport = [
+    body('projectId').notEmpty().withMessage('Please provide the project Id')
+]

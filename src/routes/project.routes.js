@@ -7,5 +7,6 @@ const validate = require('../middleware/validate.middleware');
 const { newProject } = require('../validators/index.validators');
 
 router.post('/new-project', entryPoint, newProject, validate, projectController.newProject, exitPoint);
+router.get('/get-report', entryPoint, getProjectReport, validate, projectController.getReport, exitPoint);
 
 module.exports = router;
