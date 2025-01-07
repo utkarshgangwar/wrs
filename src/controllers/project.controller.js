@@ -1,5 +1,6 @@
 const { createProject } = require('../models/project.model');
 // const newMongoCollection = require('../database/newMongoCollection.database');
+const projectParameterModel = require('../models/projectParameters.model');
 
 const projectController = () => {
     const newProject = async (req, res, next) => {
@@ -11,6 +12,8 @@ const projectController = () => {
             const { newProject, count } = await createProject(data);
             if (newProject) {
                 // newMongoCollection(newProject._id);
+                const newPrParamData = { projectId: newProject._id, week: 1 };
+                await projectParameterModel.create(newPrParamData);
                 req.apiStatus = {
                     isSuccess: true,
                     data: newProject,
@@ -30,7 +33,7 @@ const projectController = () => {
     }
 
     const getReport = () => {
-        
+
     }
 
     return {

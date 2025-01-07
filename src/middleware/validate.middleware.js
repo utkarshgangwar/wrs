@@ -13,7 +13,7 @@ const validate = (req, res, next) => {
             message: 'Validation Error',
             details: details
         };
-        return next(); // Pass to exitPoint
+        return next(); // Pass to next
     }
     next();
 };

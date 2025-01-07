@@ -15,8 +15,16 @@ const Moment = () => {
         else return false;
     }
 
+    const getWeekNumWRTProjectCreation = (date) => {
+        const currentWeek = getWeekNum();
+        const docWeek = getWeekNum(date);
+        const diff = currentWeek - docWeek;
+        return diff;
+    }
+
     return {
-        checkWeekMatch
+        checkWeekMatch,
+        getWeekNumWRTProjectCreation
     }
 };
 
