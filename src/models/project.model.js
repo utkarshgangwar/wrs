@@ -59,8 +59,9 @@ const Project = mongoose.model('Project', projectSchema);
 const projectModel = () => {
     const createProject = async (data) => {
         const newProject = await Project.create(data); // Create the new document
-        const count = await Project.countDocuments(); // Get the count of documents
-        return { newProject, count }; // Return both
+        // const count = await Project.countDocuments(); // Get the count of documents
+        // return { newProject, count }; // Return both
+        return newProject;
     }
 
     const findAndUpdate = async (filter, data, options) => {
