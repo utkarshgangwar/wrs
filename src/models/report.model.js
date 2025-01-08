@@ -13,17 +13,17 @@ const reportSchema = new mongoose.Schema(
         },
         category: {
             type: String,
-            enum: ["work", "schedule", "resource"],
+            enum: ["none", "work", "schedule", "resource"],
             default: "work"
         },
         probability: {
             type: String,
-            enum: ["low", "medium", "high"],
+            enum: ["none", "low", "medium", "high"],
             default: "low"
         },
         impact: {
             type: String,
-            enum: ["low", "medium", "high"],
+            enum: ["none", "low", "medium", "high"],
             default: "low"
         },
         owner: {
@@ -40,6 +40,12 @@ const reportSchema = new mongoose.Schema(
         },
         expected_resolution: {
             type: Date,
+        },
+        week: {
+            type: Number,
+            min: 1,
+            required: true,
+            immutable: true,
         }
     },
     {
@@ -52,7 +58,7 @@ const Report = mongoose.model('Report', reportSchema);
 const projectParameterModel = () => {
     const create = async (data) => {
         const newReport = await Report.create(data); // Create the new document
-        return { newReport, count }; // Return both
+        return newReport;
     }
 
     const updateOne = async (filter, data, options) => {

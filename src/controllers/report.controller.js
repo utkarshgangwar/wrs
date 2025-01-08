@@ -1,6 +1,7 @@
 const reportModel = require('../models/report.model');
 const Moment = require('../utils/moment.utils');
 const projectController = require('./project.controller');
+const DateUtil = require('../utils/date.utils');
 
 const reportController = () => {
     const create = async (req, res, next) => {
@@ -18,7 +19,10 @@ const reportController = () => {
                 //     req.body.doc_id = findOneReport._id;
                 //     await update(req, res, next);
                 // } else {
-                const data = req.body;
+                const data = {
+                    projectId: req.body.projectId,
+                    expected_resolution: DateUtil.addWeek
+                };
                 const { newProjectParameter, count } = await reportModel.create(data);
                 if (newProjectParameter) {
                     req.apiStatus = {

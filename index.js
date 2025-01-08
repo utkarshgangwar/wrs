@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+require('./src/schedular/cron');
 const connectDB = require('./src/database/mongo.database');
 const { serverPort } = require('./src/config/index.config');
 const routes = require('./src/routes/index.routes');
+
 const app = express();
 
 app.use(cors({

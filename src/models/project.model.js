@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
+    desktime_project_id: {
+        type: String,
+        required: true,
+        trim: true,
+        immutable: true,
+    },
     name: {
         type: String,
         required: true,
@@ -17,12 +23,12 @@ const projectSchema = new mongoose.Schema({
         required: true
     },
     startDate: {
-        type: Date,
+        type: Number,
         required: true
     },
     closeDate: {
         type: Date,
-        required: true
+        // required: true
     },
     currentSprint: {
         type: Number,
@@ -31,14 +37,14 @@ const projectSchema = new mongoose.Schema({
     },
     totalSprints: {
         type: Number,
-        required: true,
+        // required: true,
         min: 1,
         default: 1
     },
     executiveSummary: {
         type: [String],
     },
-    desktime: {
+    desktimeInfo: {
         type: Object,
     }
 },
@@ -57,8 +63,14 @@ const projectModel = () => {
         return { newProject, count }; // Return both
     }
 
+    const findAndUpdate = async (filter, data, options) => {
+        const doc = await Project.findOneAndUpdate(filter, data, options);
+        return doc;
+    }
+
     return {
         createProject,
+        findAndUpdate,
     }
 }
 

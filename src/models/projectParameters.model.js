@@ -44,6 +44,7 @@ const projectParameterSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1,
+        immutable: true,
     }
 },
     {
@@ -65,9 +66,14 @@ const projectParameterModel = () => {
         return data;
     }
 
+    const updateOne = async (filter, data, options) => {
+        return await ProjectParameter.updateOne(filter, data, options);
+    }
+
     return {
         create,
-        findOne
+        findOne,
+        updateOne,
     }
 }
 

@@ -1,0 +1,12 @@
+Project Parameter Documents:
+
+1. Report:
+    Logic 1:
+    1. Check if report has low, med, high for various keys.
+    2. If has update project parameter report key with resepctive RAG value.
+    Logiv 2:
+    1. Check if report document is of what week.
+    2. Check what is current week w.r.t. the document createdAt.
+    3. If both are same do logic 1.
+    4. else create a new document with new computed values from the last one with new RAG value from compuatation from db.
+
