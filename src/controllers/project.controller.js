@@ -1,15 +1,13 @@
 const { createProject } = require('../models/project.model');
-// const newMongoCollection = require('../database/newMongoCollection.database');
-const projectParameterModel = require('../models/projectParameters.model');
-const reportController = require('./report.controller');
 const DateUtil = require('../utils/date.utils');
 const reportModel = require('../models/report.model');
 const projectPrameterController = require('./projectPrameter.controller');
+const projectModel = require('../models/project.model');
 
 const projectController = () => {
-    async function handleCreationDocsCreations(newProject_id) {
+    const handleCreationDocsCreations = async (newProject_id) => {
         const newReportData = {
-            projectId: newProject._id,
+            projectId: String(newProject_id),
             expected_resolution: DateUtil.addWeek(),
             contingency_plan: '',
             mitigation_plan: '',
@@ -18,9 +16,10 @@ const projectController = () => {
             probability: 'none',
             category: 'none',
             description: '',
+            week: 1,
         };
         await reportModel.create(newReportData);
-        await projectPrameterController.create(newProject_id);
+        await projectPrameterController.create(newProject_id, 1);
         return;
     }
 
@@ -55,13 +54,71 @@ const projectController = () => {
         }
     }
 
-    const getReport = () => {
+    const getAll = async (req, res, next) => {
+        if (!req.apiStatus?.isSuccess) {
+            return next(); // Pass to exitPoint directly
+        } else {
+            const filter = {};
+            const projection = {};
+            const options = { createdAt: -1 };
+            const data = await projectModel.find(filter, projection, options);
+            if (data) {
+                req.apiStatus = {
+                    isSuccess: true,
+                    data: data,
+                    customMsg: 'Projects fetched successfully',
+                    totalRecords: data.length
+                }
+                next();
+            } else {
+                req.apiStatus = {
+                    isSuccess: true,
+                    data: [],
+                    customMsg: 'No Projects',
+                    totalRecords: 0
+                }
+                next();
+            }
+        }
+    }
 
+    const updateById = async (req, res, next) => {
+        if (!req.apiStatus?.isSuccess) {
+            return next(); // Pass to exitPoint directly
+        } else {
+            try {
+                const newData = {}
+                if (req.body.clientName) newData.clientName = req.body.clientName;
+                if (req.body.currentSprint) newData.currentSprint = req.body.currentSprint;
+                if (req.body.totalSprint) newData.totalSprint = req.body.totalSprint;
+                if (req.body.executiveSummary) newData.executivesummary = req.body.executiveSummary;
+                const filter = { _id: req.body.projectId };
+                const options = { runValidators: true };
+                const updateDoc = await projectModel.findAndUpdate(filter, newData, options);
+                if (updateDoc) {
+                    req.apiStatus = {
+                        isSuccess: true,
+                        data: updateDoc,
+                        customMsg: 'Project updated successfully',
+                    }
+                    next();
+                }
+            } catch (error) {
+                req.apiStatus = {
+                    isSuccess: false,
+                    customMsg: 'Unable to create project',
+                    error: error,
+                }
+                next();
+            }
+        }
     }
 
     return {
         newProject,
-        getReport,
+        getAll,
+        handleCreationDocsCreations,
+        updateById,
     }
 }
 

@@ -4,8 +4,8 @@ const projectParameterController = require('../controllers/projectPrameter.contr
 const exitPoint = require('../middleware/exitPoint.middleware');
 const entryPoint = require('../middleware/entryPoint.middleware');
 const validate = require('../middleware/validate.middleware');
-const { getProjectReport } = require('../validators/index.validators');
+const { projectId } = require('../validators/index.validators');
 
-router.get('/get', entryPoint, getProjectReport, validate, projectParameterController.get, exitPoint);
+router.get('/get', entryPoint, projectId, validate, projectParameterController.get, exitPoint);
 
 module.exports = router;

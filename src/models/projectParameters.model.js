@@ -4,7 +4,7 @@ const projectParameterSchema = new mongoose.Schema({
     projectId: {
         type: mongoose.Schema.ObjectId,
         ref: 'Project',
-        required: true,
+        // required: true,
     },
     risk: {
         type: String,

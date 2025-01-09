@@ -46,6 +46,10 @@ const projectSchema = new mongoose.Schema({
     },
     desktimeInfo: {
         type: Object,
+    },
+    archived: {
+        type: Boolean,
+        default: false,
     }
 },
     {
@@ -53,7 +57,7 @@ const projectSchema = new mongoose.Schema({
     }
 );
 
-
+projectSchema.index({ archived: 1, desktime_project_id: 1 });
 const Project = mongoose.model('Project', projectSchema);
 
 const projectModel = () => {
@@ -69,9 +73,14 @@ const projectModel = () => {
         return doc;
     }
 
+    const find = async (filter, projection, options) => {
+        return await Project.find(filter, projection, options);
+    }
+
     return {
         createProject,
         findAndUpdate,
+        find,
     }
 }
 

@@ -5,6 +5,7 @@ const CommercialHealthSchema = new mongoose.Schema(
         projectId: {
             type: mongoose.Schema.ObjectId,
             ref: 'Project',
+            required: true,
         },
         all_invoices_raised: {
             type: String,

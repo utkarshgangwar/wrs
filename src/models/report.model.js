@@ -1,4 +1,3 @@
-const { filter } = require('lodash');
 const mongoose = require('mongoose');
 
 const reportSchema = new mongoose.Schema(
@@ -41,12 +40,12 @@ const reportSchema = new mongoose.Schema(
         expected_resolution: {
             type: Date,
         },
-        week: {
-            type: Number,
-            min: 1,
-            required: true,
-            immutable: true,
-        }
+        // week: {
+        //     type: Number,
+        //     min: 1,
+        //     required: true,
+        //     immutable: true,
+        // }
     },
     {
         timestamps: true

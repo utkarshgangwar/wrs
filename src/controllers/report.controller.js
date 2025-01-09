@@ -1,6 +1,4 @@
 const reportModel = require('../models/report.model');
-const Moment = require('../utils/moment.utils');
-const projectController = require('./project.controller');
 const DateUtil = require('../utils/date.utils');
 
 const reportController = () => {
@@ -21,15 +19,29 @@ const reportController = () => {
                 // } else {
                 const data = {
                     projectId: req.body.projectId,
-                    expected_resolution: DateUtil.addWeek
                 };
-                const { newProjectParameter, count } = await reportModel.create(data);
-                if (newProjectParameter) {
+                if (req.body.description) data.description = req.body.description;
+                if (req.body.category) data.category = req.body.category;
+                if (req.body.probability) data.probability = req.body.probability;
+                if (req.body.impact) data.impact = req.body.impact;
+                if (req.body.owner) data.owner = req.body.owner;
+                if (req.body.mitigation_plan) data.mitigation_plan = req.body.mitigation_plan;
+                if (req.body.contigency_plan) data.contigency_plan = req.body.contigency_plan;
+
+                if (req.body.expected_resolution) {
+                    data.expected_resolution = req.body.expected_resolution;
+                }
+                else {
+                    data.expected_resolution = DateUtil.addWeek();
+                }
+
+                const newReportDoc = await reportModel.create(data);
+                if (newReportDoc) {
                     req.apiStatus = {
                         isSuccess: true,
-                        data: newProjectParameter,
+                        data: newReportDoc,
                         customMsg: 'Report created successfully',
-                        totalRecords: count
+                        // totalRecords: count
                     }
                 }
                 // }

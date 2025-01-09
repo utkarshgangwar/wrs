@@ -18,6 +18,6 @@ exports.updateReport = [
     body('doc_id').notEmpty().withMessage('Please provide the doc _id')
 ]
 
-exports.getProjectReport = [
+exports.projectId = [
     body('projectId').notEmpty().withMessage('Please provide the project Id')
 ]
