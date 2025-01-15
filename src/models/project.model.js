@@ -22,6 +22,9 @@ const projectSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    employees: {
+        type: [String],
+    },
     startDate: {
         type: Number,
         required: true
@@ -77,10 +80,21 @@ const projectModel = () => {
         return await Project.find(filter, projection, options);
     }
 
+    const findOne = async (filter, projection, options) => {
+        return await Project.findOne(filter, projection, options);
+    }
+
+    const projectHealth = async (projectId) => {
+        const aggArr = [];
+        const result = await Project.aggregate(aggArr);
+        return result;
+    }
+
     return {
         createProject,
         findAndUpdate,
         find,
+        findOne,
     }
 }
 

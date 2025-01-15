@@ -9,5 +9,6 @@ const { newProject, projectId } = require('../validators/index.validators');
 router.post('/new', entryPoint, newProject, validate, projectController.newProject, exitPoint);
 router.get('/get-all', entryPoint, projectController.getAll, exitPoint);
 router.put('/updateById', entryPoint, projectId, validate, projectController.updateById, exitPoint);
+router.put('/update-employee', entryPoint, projectController.updateEmp, exitPoint);
 
 module.exports = router;

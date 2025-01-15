@@ -1,3 +1,4 @@
+const { filter } = require('lodash');
 const mongoose = require('mongoose');
 
 const CommercialHealthSchema = new mongoose.Schema(
@@ -52,24 +53,28 @@ const CommercialHealthSchema = new mongoose.Schema(
     }
 );
 
-const TechicalHealth = mongoose.model('commerial_health', CommercialHealthSchema);
+const CommercialHealth = mongoose.model('commerial_health', CommercialHealthSchema);
 
-const technicalHealthModel = () => {
+const commercialHealthModel = () => {
     const create = async (data) => {
-        const newDoc = await TechicalHealth.create(data);
+        const newDoc = await CommercialHealth.create(data);
         return newDoc;
     }
 
     const updateOne = async (filter, data, options) => {
-        return await TechicalHealth.updateOne(filter, data, options);
+        return await CommercialHealth.updateOne(filter, data, options);
     }
 
     const findOne = async (filter, projection, options) => {
-        return await TechicalHealth.findOne(filter, projection, options);
+        return await CommercialHealth.findOne(filter, projection, options);
     }
 
     const getAll = async (filter, projection, options) => {
-        return await TechicalHealth.find(filter, projection, options);
+        return await CommercialHealth.find(filter, projection, options);
+    }
+
+    const findAndUpdate = async (filter, data, options) => {
+        return await CommercialHealth.findOneAndUpdate(filter, data, options);
     }
 
     return {
@@ -77,7 +82,8 @@ const technicalHealthModel = () => {
         updateOne,
         findOne,
         getAll,
+        findAndUpdate
     }
 }
 
-module.exports = technicalHealthModel();
+module.exports = commercialHealthModel();

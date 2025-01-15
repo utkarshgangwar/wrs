@@ -1,10 +1,11 @@
-import commercialHealthModel from "../models/commercialHealth.model";
+const commercialHealthModel = require('../models/commercialHealth.model.js');
+const timesheetController = require('../controllers/timesheet.controller');
 
 const commercialHealthController = () => {
     const create = async (req, res, next) => {
         try {
             const data = { projectId: req.body.projectId }
-            const newDoc = await commercialHealthController.create(data);
+            const newDoc = await commercialHealthModel.create(data);
             if (newDoc) {
                 req.apiStatus = {
                     isSuccess: true,
@@ -62,8 +63,25 @@ const commercialHealthController = () => {
         }
     }
 
+    const getData = async (req, res, next) => {
+        const filter = { projectId: req?.body?.projectId || "677f8f99301c08798ce15ab4" };
+        const data = {};
+        const options = { upsert: true };
+        const timesheetCall = await timesheetController.getAllByProjectId(req, res, next);
+        const doc = await commercialHealthModel.findAndUpdate(filter, data, options);
+        req.apiStatus = {
+            isSuccess: true,
+            customMsg: 'success',
+            data: doc,
+        }
+        next();
+    }
+
     return {
         create,
         updateByProjectId,
+        getData
     }
 }
+
+module.exports = commercialHealthController();

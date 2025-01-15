@@ -114,11 +114,35 @@ const projectController = () => {
         }
     }
 
+    const updateEmp = async (req, res, next) => {
+        const filter = {
+            _id: req.body.projectId
+        }
+        const data = { $set: { employees: req.body.employees } }
+        const options = { new: true, runValidators: true };
+        const updateDoc = await projectModel.findAndUpdate(filter, data, options)
+        if (updateDoc) {
+            req.apiStatus = {
+                isSuccess: true,
+                data: updateDoc
+            }
+            next();
+        } else {
+            req.apiStatus = {
+                isSuccess: true,
+                customMsg: 'Nothing to update',
+                data: updateDoc,
+            }
+            next();
+        }
+    }
+
     return {
         newProject,
         getAll,
         handleCreationDocsCreations,
         updateById,
+        updateEmp,
     }
 }
 

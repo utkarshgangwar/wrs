@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param, query } = require('express-validator');
 
 exports.newProject = [
     body('name').notEmpty().withMessage('Please provide name'),
@@ -20,4 +20,8 @@ exports.updateReport = [
 
 exports.projectId = [
     body('projectId').notEmpty().withMessage('Please provide the project Id')
+]
+
+exports.date = [
+    query('date').notEmpty().withMessage('Please provide date as yyyy-mm-dd')
 ]
